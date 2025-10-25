@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Color Changer</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #1e1e2f, #2c2c3e);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    transition: background 1s ease, color 0.5s ease;
+    color: #fff;
+  }
+
+  h1 {
+    font-weight: 600;
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #e0e0e0;
+  }
+
+  .color-box {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    padding: 15px 30px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .controls, .speedControl {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  button {
+    padding: 12px 25px;
+    border-radius: 15px;
+    border: none;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(8px);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  button:hover {
+    background: rgba(255,255,255,0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 180px;
+    height: 8px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(5px);
+    outline: none;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    cursor: pointer;
+    border: 2px solid #fff;
+    transition: all 0.3s ease;
+  }
+
+  input[type=range]::-webkit-slider-thumb:hover {
+    background: rgba(255,255,255,0.6);
+  }
+
+  #speedValue {
+    font-weight: 600;
+    margin-left: 10px;
+    color: #ddd;
+  }
+</style>
+</head>
+<body>
+
+  <h1>Color Changer</h1>
+  <div class="color-box" id="colorCode">#1e1e2f</div>
+
+  <div class="controls">
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+    <button id="reset">Reset</button>
+  </div>
+
+  <div class="speedControl">
+    <label for="speedRange">Speed:</label>
+    <input type="range" id="speedRange" min="100" max="2000" step="100" value="1000">
+    <span id="speedValue">1s</span>
+  </div>
+
+<script>
+  // Random color generator
+  const randomColor = () => {
+    const hex = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += hex[Math.floor(Math.random()*16)];
+    }
+    return color;
+  }
+
+  let intervalId;
+  let speed = 1000;
+
+  const startChangingColor = () => {
+    if(!intervalId){
+      intervalId = setInterval(()=>{
+        const color = randomColor();
+        document.body.style.background = color;
+        document.getElementById('colorCode').innerText = color;
+        document.getElementById('colorCode').style.background = 'rgba(255,255,255,0.1)';
+        document.getElementById('colorCode').style.backdropFilter = 'blur(10px)';
+        document.body.style.color = getContrastYIQ(color);
+      }, speed)
+    }
+  }
+
+  const stopChangingColor = () => {
+    clearInterval(intervalId);
+    intervalId = null;
+  }
+
+  const resetColor = () => {
+    stopChangingColor();
+    document.body.style.background = 'linear-gradient(135deg, #1e1e2f, #2c2c3e)';
+    document.getElementById('colorCode').innerText = '#1e1e2f';
+    document.body.style.color = '#fff';
+  }
+
+  document.getElementById('speedRange').addEventListener('input', function(){
+    speed = this.value;
+    document.getElementById('speedValue').innerText = (speed/1000)+'s';
+    if(intervalId){
+      stopChangingColor();
+      startChangingColor();
+    }
+  });
+
+  // Contrast function
+  function getContrastYIQ(hexcolor){
+    hexcolor = hexcolor.replace("#","");
+    const r = parseInt(hexcolor.substr(0,2),16);
+    const g = parseInt(hexcolor.substr(2,2),16);
+    const b = parseInt(hexcolor.substr(4,2),16);
+    const yiq = ((r*299)+(g*587)+(b*114))/1000;
+    return (yiq >= 128) ? '#000' : '#fff';
+  }
+
+  document.getElementById('start').addEventListener('click', startChangingColor);
+  document.getElementById('stop').addEventListener('click', stopChangingColor);
+  document.getElementById('reset').addEventListener('click', resetColor);
+</script>
+
+</body>
+</html>
