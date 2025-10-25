@@ -1,10 +1,10 @@
-# 🌈 Glass Color Changer
+# 🌈 GlassHue
 
-A **modern, stylish color changer** with **glassmorphism UI** built with **HTML, CSS, and JavaScript**.  
-Click **Start** to watch your background change colors dynamically, adjust the speed, and enjoy a sleek, responsive interface.
+A **modern, stylish background color changer** with **glassmorphism UI**, built with **HTML, CSS, and JavaScript**.  
+Click **Start** to watch your background change colors dynamically, adjust the speed with the slider, and enjoy a sleek, responsive interface.
 
 ## 🔹 Live Demo
-[Try it Live](#)  <!-- Replace # with your deployed link -->
+[glass-hue.vercel.app](https://glass-hue.vercel.app)
 
 ## 🎨 Features
 
@@ -25,13 +25,5 @@ Click **Start** to watch your background change colors dynamically, adjust the s
 ## 🚀 How to Use
 
 1. Clone the repository or download the HTML file.  
-2. Open the HTML file in your browser.  
-3. Click **Start** to begin color changing.  
-4. Adjust speed using the slider.  
-5. Click **Stop** to pause or **Reset** to go back to default.  
-
-
-
-## Author
-
-**Naina** – B.Tech IT Student | Web Development Enthusiast
+   ```bash
+   git clone https://github.com/nainashilpi/GlassHue.git
